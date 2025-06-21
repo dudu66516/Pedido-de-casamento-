@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mensagem Romântica</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      user-select: none;
+      position: relative;
+    }
+    h1 {
+      position: fixed;
+      top: 30%;
+      width: 100%;
+      text-align: center;
+      font-size: 4em;
+      color: #ff4060;
+      text-shadow: 0 0 10px #ff6699, 0 0 20px #ff4060;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .message-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      border-radius: 20px;
+      font-size: 2.8em;
+      color: #ff3366;
+      text-align: center;
+      text-shadow: 0 0 10px #ff6699, 0 0 20px #ff4060;
+      display: none;
+      user-select: text;
+      z-index: 1000;
+      animation: pulseColor 1.5s infinite alternate;
+      cursor: default;
+    }
+    @keyframes pulseColor {
+      0% {
+        color: #ff3366;
+        text-shadow: 0 0 10px #ff6699, 0 0 20px #ff4060;
+        transform: scale(1);
+      }
+      100% {
+        color: #ff99cc;
+        text-shadow: 0 0 20px #ff99cc, 0 0 40px #ff6699;
+        transform: scale(1.12);
+      }
+    }
+
+    /* Heart shape */
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: #ff3366;
+      transform: rotate(-45deg);
+      top: 0;
+      pointer-events: none;
+      z-index: 999;
+      animation: fall linear forwards;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 2px #ff6699);
+    }
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff3366;
+      border-radius: 50%;
+    }
+    .heart:before {
+      top: -10px;
+      left: 0;
+    }
+    .heart:after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Te Amo ❤️</h1>
+  <div id="popup" class="message-popup">Lara Beatriz, casa cmg? 💍❤️</div>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      const size = 10 + Math.random() * 30;
+      heart.style.width = heart.style.height = size + 'px';
+      heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+      heart.style.opacity = (0.4 + Math.random() * 0.6);
+      heart.style.animationTimingFunction = 'cubic-bezier(0.4, 0, 0.2, 1)';
+      document.body.appendChild(heart);
+
+      heart.addEventListener('animationend', () => heart.remove());
+    }
+
+    // Aumentei a frequência e gera mais corações em bursts pra encher mesmo
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) createHeart();
+    }, 150);
+
+    // Mostrar mensagem ao clicar (com efeito de entrada e saída suave)
+    const popup = document.getElementById('popup');
+    document.body.addEventListener('click', () => {
+      if (popup.style.display === 'none' || popup.style.display === '') {
+        popup.style.display = 'block';
+        popup.style.opacity = '0';
+        popup.style.transition = 'opacity 0.5s ease-in-out';
+        setTimeout(() => popup.style.opacity = '1', 10);
+
+        setTimeout(() => {
+          popup.style.opacity = '0';
+          setTimeout(() => popup.style.display = 'none', 500);
+        }, 4000);
+      }
+    });
+  </script>
+</body>
+</html>
